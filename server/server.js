@@ -1,6 +1,7 @@
 // NPM Packages
 var express = require('express');
 var app = express();
+var logger = require('morgan');
 
 // Route modules
 var authRoutes = require('./route/auth.js');
@@ -8,6 +9,16 @@ var authRoutes = require('./route/auth.js');
 // Misc variables
 var PORT = process.env.PORT || 3000;
 
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URL, function(err, db){
+  console.log(err || "Connected to MongoDB");
+});
+
+// Middleware
+app.use(logger('dev'));
+app.use(express.static(process.env.PWD + '/client'));
+
+// Load index.html on root route
 app.get('/', function(req, res){
   res.sendFile(process.env.PWD + '/client/index.html');
 })
@@ -40,7 +51,9 @@ app.use(function(req, res, next){
 })
 
 // Routes with auth
+// ..
 
+// Start server
 app.listen(PORT, function(err){
   console.log(err || "Listening on port: " + PORT);
-})
+});

@@ -2,9 +2,11 @@
 var express = require('express');
 var app = express();
 var logger = require('morgan');
+var mongoose = require('mongoose');
+var dotenv = require('dotenv').load({silent: true});
 
 // Route modules
-var authRoutes = require('./route/auth.js');
+var authRoutes = require('./routes/auth.js');
 
 // Misc variables
 var PORT = process.env.PORT || 3000;

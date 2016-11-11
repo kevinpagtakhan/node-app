@@ -11,7 +11,7 @@ var controller = {
       } else {
         var newUser = User();
         newUser.username = req.body.username;
-        newUser.password = User.generateHash(req.body.password);
+        newUser.password = newUser.generateHash(req.body.password);
 
         newUser.save(function(err, createdUser){
           if(err) {

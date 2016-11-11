@@ -4,6 +4,7 @@ var app = express();
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var dotenv = require('dotenv').load({silent: true});
+var bodyParser = require('body-parser');
 
 // Route modules
 var authRoutes = require('./routes/auth.js');
@@ -18,6 +19,8 @@ mongoose.connect(process.env.MONGO_URL, function(err, db){
 
 // Middleware
 app.use(logger('dev'));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(express.static(process.env.PWD + '/client'));
 
 // Load index.html on root route

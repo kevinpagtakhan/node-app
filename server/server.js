@@ -39,7 +39,8 @@ app.use(function(req, res, next){
       if (err) {
         return res.status(403).send({
             success: false,
-            message: 'Token Authentication failed.'
+            data: err,
+            message: 'Token authentication failed'
         });
       } else {
         req.user = user;
@@ -50,7 +51,8 @@ app.use(function(req, res, next){
   } else {
     return res.status(403).send({
         success: false,
-        message: 'No token provided.'
+        data: null,
+        message: 'No token provided'
     });
   }
 })

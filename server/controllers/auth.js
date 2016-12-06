@@ -5,28 +5,19 @@ var controller = {
   register: function(req, res){
     User.findOne({username: req.body.username}, function(err, user){
       if(err) {
-        res.json({success: false, data: err, message: 'Error occured while finding user'});
+        res.json({success: false, message: err});
       } else if (user) {
-        res.json({success: false, data: null, message: 'Username already taken'})
+        res.json({success: false, message: 'Username already taken. Please choose a new one.'});
       } else {
-        var newUser = User();
+        var newUser = new User();
         newUser.username = req.body.username;
         newUser.password = newUser.generateHash(req.body.password);
 
         newUser.save(function(err, createdUser){
           if(err) {
-            req.json({success: false, data: err, message: 'Error occured while saving user'});
-          } else {
-            var userToken = {
-              _id: createdUser._id,
-              username: createdUser.username
-            };
-            var config = {
-              expiresIn: 60*60 // 1 hour
-            }
-
-            var token = jwt.sign(userToken, 'secret', config);
-            res.json({success: true, data: token, message: 'User created'});
+            res.json({success: false, message: err});
+          } else{
+            res.json({success: true, data: createdUser});
           }
         })
       }
